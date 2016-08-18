@@ -11,29 +11,23 @@ import de.sytm.httpserver.internal.ClientWorker;
 import de.sytm.httpserver.internal.WebException;
 
 public class WebServer extends Thread {
-
+	
 	private int port;
 	private ServerSocket serverSocket;
 	private boolean isRunning;
 	private ExecutorService threadPool;
+	private AccessFilter filter;
 	private WebListener listener;
 
 	/**
 	 * Creates a new webserver
-	 * @param port The port for the webserver
-	 * @param maxthreads The maximum amount of worker threads
-	 * @param listener The weblistener for incoming reqeusts
-	 * @throws IllegalArgumentException If listener is null or maxthreads is lower or equal to zero or the port is in the wrong range
+	 * @param properties The properties for this server
 	 */
-	public WebServer(int port, int maxthreads, WebListener listener) {
-		if (port > 65535 || port < 0)
-		if (maxthreads <= 0)
-			throw new IllegalArgumentException("The amount of workerthreads must be greater than 0!");
-		if (listener == null)
-			throw new IllegalArgumentException("The listener class can't be null!");
-		this.port = port;
-		this.threadPool = Executors.newFixedThreadPool(maxthreads);
-		this.listener = listener;
+	public WebServer(ServerProperties properties) {
+		this.listener = properties.getWebListener();
+		this.filter = properties.getAccessFilter();
+		this.threadPool = Executors.newFixedThreadPool(properties.getWorkerThreads());
+		this.port = properties.getPort();
 	}
 	
 	public void run() {
@@ -53,7 +47,7 @@ public class WebServer extends Thread {
 				}
 				throw new WebException("Error while accepting client connection", e);
 			}
-			this.threadPool.execute(new ClientWorker(clientSocket, listener));
+			this.threadPool.execute(new ClientWorker(clientSocket, listener, filter));
 		}
 		this.threadPool.shutdown();
 		try {

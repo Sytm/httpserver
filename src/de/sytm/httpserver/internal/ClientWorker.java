@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.sytm.httpserver.api.AccessFilter;
 import de.sytm.httpserver.api.RequestData;
 import de.sytm.httpserver.api.RequestType;
 import de.sytm.httpserver.api.Response;
@@ -16,12 +17,14 @@ import de.sytm.httpserver.internal.impl.RequestDataImpl;
 
 public class ClientWorker implements Runnable {
 
+	private AccessFilter filter;
 	private WebListener listener;
 	private Socket clientSocket;
 
-	public ClientWorker(Socket clientSocket, WebListener listener) {
+	public ClientWorker(Socket clientSocket, WebListener listener, AccessFilter filter) {
 		this.clientSocket = clientSocket;
 		this.listener = listener;
+		this.filter = filter;
 	}
 
 	public void run() {
@@ -29,15 +32,20 @@ public class ClientWorker implements Runnable {
 			byte[] buffer = new byte[512];
 			InputStream input = clientSocket.getInputStream();
 			OutputStream output = clientSocket.getOutputStream();
-			try {
-				input.read(buffer);
-				buffer = Utils.cleanBuffer(buffer);
-				String requestinformation = new String(buffer);
-				String response = toString(listener.recieve(parse(requestinformation)));
-				output.write(response.getBytes());
-			} catch (Exception | OutOfMemoryError ex) {
-				ex.printStackTrace();
-				String response = toString(Response.INTERNAL_ERROR);
+			if (filter.check(clientSocket.getInetAddress())) {
+				try {
+					input.read(buffer);
+					buffer = Utils.cleanBuffer(buffer);
+					String requestinformation = new String(buffer);
+					String response = toString(listener.recieve(parse(requestinformation)));
+					output.write(response.getBytes());
+				} catch (Exception | OutOfMemoryError ex) {
+					ex.printStackTrace();
+					String response = toString(Response.INTERNAL_ERROR);
+					output.write(response.getBytes());
+				}
+			} else {
+				String response = toString(Response.FORBIDDEN);
 				output.write(response.getBytes());
 			}
 			output.close();

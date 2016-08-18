@@ -14,7 +14,7 @@ public class ResponseImpl implements Response {
 	
 	public ResponseImpl(boolean sdh) {
 		headers = new HashMap<String, String>();
-		content = "<p>Missing content</p>";
+		content = "Missing content";
 		httprc = HTTPResponseCode.FINE;
 		if (sdh) {
 			headers.put("Content-Type", "text/html");
