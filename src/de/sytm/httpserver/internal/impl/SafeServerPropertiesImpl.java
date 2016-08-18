@@ -3,6 +3,7 @@ package de.sytm.httpserver.internal.impl;
 import de.sytm.httpserver.api.AccessFilter;
 import de.sytm.httpserver.api.ServerProperties;
 import de.sytm.httpserver.api.WebListener;
+import de.sytm.httpserver.internal.Validator;
 
 public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
@@ -20,7 +21,7 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setAcessFilter(AccessFilter filter) {
-		notNull(filter, "The filter can't be null!");
+		Validator.notNull(filter, "The filter can't be null!");
 		this.filter = filter;
 	}
 
@@ -31,7 +32,7 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setPort(int port) {
-		mustTrue(port < 65535 && port > 0, "The port number must be between 0 and 65535!");
+		Validator.mustTrue(port < 65535 && port > 0, "The port number must be between 0 and 65535!");
 		this.port = port;
 	}
 
@@ -42,7 +43,7 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setListener(WebListener webListener) {
-		notNull(webListener, "The listener can't be null!");
+		Validator.notNull(webListener, "The listener can't be null!");
 		this.listener = webListener;
 	}
 
@@ -53,23 +54,13 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setWorkerThreads(int amount) {
-		mustTrue(amount > 0, "The amount of worker threads must be greater than 0!");
+		Validator.mustTrue(amount > 0, "The amount of worker threads must be greater than 0!");
 		this.wthreads = amount;
 	}
 
 	@Override
 	public int getWorkerThreads() {
 		return wthreads;
-	}
-	
-	private static void notNull(Object object, String message) {
-		mustTrue(object != null, message);
-	}
-	
-	private static void mustTrue(boolean value, String message) {
-		if (!value) {
-			throw new IllegalArgumentException(message);
-		}
 	}
 
 	@Override

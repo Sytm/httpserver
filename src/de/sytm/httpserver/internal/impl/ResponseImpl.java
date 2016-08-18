@@ -6,6 +6,7 @@ import java.util.Map;
 import de.sytm.httpserver.api.Attachment;
 import de.sytm.httpserver.api.HTTPResponseCode;
 import de.sytm.httpserver.api.Response;
+import de.sytm.httpserver.internal.Validator;
 
 public class ResponseImpl implements Response {
 
@@ -20,23 +21,24 @@ public class ResponseImpl implements Response {
 		httprc = HTTPResponseCode.FINE;
 		if (sdh) {
 			headers.put("Content-Type", "text/html");
-		} else {
-			headers.put("Content-Type", "text/plain");
 		}
 	}
 	
 	@Override
 	public void setHeaders(Map<String, String> headers) {
+		Validator.notNull(headers, "The headers can't be null!");
 		this.headers = headers;
 	}
 
 	@Override
 	public void setContent(String content) {
+		Validator.notNull(content, "The content for the page can't be null!");
 		this.content = content;
 	}
 
 	@Override
 	public void setResponseCode(HTTPResponseCode responsecode) {
+		Validator.notNull(responsecode, "The responsecode can't be null!");
 		this.httprc = responsecode;
 	}
 
@@ -57,6 +59,7 @@ public class ResponseImpl implements Response {
 
 	@Override
 	public void addAttachment(Attachment attachment) {
+		Validator.notNull(attachment, "The attachment can't be null!");
 		this.attachment = attachment;
 	}
 

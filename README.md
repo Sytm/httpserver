@@ -45,7 +45,7 @@ Or use a predefinded Listener class:<br>
 But I do NOT recommend this! PhP Scripts on your server won't be processed and will displayed as a normal text-file!<br>
 This libary was made for websites, which are in java programmed!<br>
 ```java
-list<String> indexfiles = new ArrayList<String>();
+List<String> indexfiles = new ArrayList<String>();
 indexfiles.add("index.html");
 indexfiles.add("index.htm");
 indexfiles.add("index.xhtml");

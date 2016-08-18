@@ -1,6 +1,6 @@
 package de.sytm.httpserver.internal.impl;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 import de.sytm.httpserver.api.Attachment;
@@ -14,7 +14,7 @@ public class FinalResponseImpl implements Response {
 	private HTTPResponseCode httprc;
 	
 	public FinalResponseImpl(Map<String, String> headers, String content, HTTPResponseCode httprc) {
-		this.headers = headers;
+		this.headers = Collections.unmodifiableMap(headers);
 		this.content = content;
 		this.httprc = httprc;
 	}
@@ -33,7 +33,7 @@ public class FinalResponseImpl implements Response {
 
 	@Override
 	public Map<String, String> getHeaders() {
-		return new HashMap<String, String>(headers);
+		return headers;
 	}
 
 	@Override

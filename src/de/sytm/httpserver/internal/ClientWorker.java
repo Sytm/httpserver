@@ -39,7 +39,7 @@ public class ClientWorker implements Runnable {
 					buffer = IOUtils.cleanBuffer(buffer);
 					String requestinformation = new String(buffer);
 					RequestData request = parse(requestinformation);
-					if (filter.check(clientSocket.getInetAddress(), request.getRequestPath())) {
+					if (filter.check(clientSocket.getInetAddress(), request.getRequestedPath())) {
 						Response rawresponse = listener.recieve(request);
 						boolean def = true;
 						if (rawresponse.getAttachment() != null) {

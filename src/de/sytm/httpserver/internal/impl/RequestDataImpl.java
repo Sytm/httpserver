@@ -30,7 +30,7 @@ public class RequestDataImpl implements RequestData {
 	}
 
 	@Override
-	public String getRequestPath() {
+	public String getRequestedPath() {
 		return path == null ? "/" : path;
 	}
 

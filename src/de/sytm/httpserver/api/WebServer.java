@@ -11,7 +11,7 @@ import de.sytm.httpserver.internal.ClientWorker;
 import de.sytm.httpserver.internal.WebException;
 
 public class WebServer extends Thread {
-	
+
 	private int port;
 	private ServerSocket serverSocket;
 	private boolean isRunning;
@@ -21,7 +21,9 @@ public class WebServer extends Thread {
 
 	/**
 	 * Creates a new webserver
-	 * @param properties The properties for this server
+	 * 
+	 * @param properties
+	 *            The properties for this server
 	 */
 	public WebServer(ServerProperties properties) {
 		this.listener = properties.getWebListener();
@@ -29,7 +31,7 @@ public class WebServer extends Thread {
 		this.threadPool = Executors.newFixedThreadPool(properties.getWorkerThreads());
 		this.port = properties.getPort();
 	}
-	
+
 	public void run() {
 		openSocket();
 		while (isRunning()) {
@@ -59,12 +61,13 @@ public class WebServer extends Thread {
 
 	/**
 	 * Returns true, if the server is currently listening to clients
+	 * 
 	 * @return The state of webserver
 	 */
 	public synchronized boolean isRunning() {
 		return this.isRunning;
 	}
-	
+
 	/**
 	 * Shuts the server down
 	 */

@@ -4,7 +4,14 @@ import de.sytm.httpserver.internal.RequestParser.RawRequest;
 
 public enum RequestType {
 
-	GET, POST;
+	/**
+	 * The request was a get request
+	 */
+	GET, 
+	/**
+	 * The request was a post request
+	 */
+	POST;
 
 	public static RequestType valueOf(RawRequest request) {
 		if (!request.getHeaders().containsKey("Request-Type"))
