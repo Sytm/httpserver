@@ -45,7 +45,13 @@ Or use a predefinded Listener class:<br>
 But I do NOT recommend this! PhP Scripts on your server won't be processed and will displayed as a normal text-file!<br>
 This libary was made for websites, which are in java programmed!<br>
 ```java
-WebListener listener = new FileListener(new File("path/to/your/root/directory/"));
+list<String> indexfiles = new ArrayList<String>();
+indexfiles.add("index.html");
+indexfiles.add("index.htm");
+indexfiles.add("index.xhtml");
+indexfiles.add("index.js");
+indexfiles.add("index.txt");
+WebListener listener = new FileListener(new File("path/to/your/root/directory/"), indexfiles);
 ```
 <br><br>
 Now we create our WebServer instance:
