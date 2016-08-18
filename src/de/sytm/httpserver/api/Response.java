@@ -18,6 +18,10 @@ public interface Response {
 	public String getContent();
 
 	public HTTPResponseCode getResponseCode();
+	
+	public void addAttachment(Attachment attachment);
+	
+	public Attachment getAttachment();
 
 	public static Response newResponse() {
 		return newResponse(false);

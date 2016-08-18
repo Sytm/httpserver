@@ -14,6 +14,7 @@ import de.sytm.httpserver.api.Response;
 import de.sytm.httpserver.api.WebListener;
 import de.sytm.httpserver.internal.RequestParser.RawRequest;
 import de.sytm.httpserver.internal.impl.RequestDataImpl;
+import de.sytm.httpserver.internal.utils.IOUtils;
 
 public class ClientWorker implements Runnable {
 
@@ -35,18 +36,41 @@ public class ClientWorker implements Runnable {
 			if (filter.check(clientSocket.getInetAddress())) {
 				try {
 					input.read(buffer);
-					buffer = Utils.cleanBuffer(buffer);
+					buffer = IOUtils.cleanBuffer(buffer);
 					String requestinformation = new String(buffer);
-					String response = toString(listener.recieve(parse(requestinformation)));
-					output.write(response.getBytes());
+					RequestData request = parse(requestinformation);
+					if (filter.check(clientSocket.getInetAddress(), request.getRequestPath())) {
+						Response rawresponse = listener.recieve(request);
+						boolean def = true;
+						if (rawresponse.getAttachment() != null) {
+							if (rawresponse.getAttachment().getContent() != null) {
+								def = false;
+								output.write(rawresponse.getResponseCode().toString().getBytes());
+								output.write((toString(rawresponse.getHeaders()) + "\n\n").getBytes());
+								output.write(rawresponse.getAttachment().getContent());
+								output.flush();
+							}
+						}
+						if (def) {
+							String response = toString(rawresponse);
+							output.write(response.getBytes());
+							output.flush();
+						}
+					} else {
+						String response = toString(Response.FORBIDDEN);
+						output.write(response.getBytes());
+						output.flush();
+					}
 				} catch (Exception | OutOfMemoryError ex) {
 					ex.printStackTrace();
 					String response = toString(Response.INTERNAL_ERROR);
 					output.write(response.getBytes());
+					output.flush();
 				}
 			} else {
 				String response = toString(Response.FORBIDDEN);
 				output.write(response.getBytes());
+				output.flush();
 			}
 			output.close();
 			input.close();

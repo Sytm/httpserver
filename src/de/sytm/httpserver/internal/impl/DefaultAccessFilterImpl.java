@@ -14,4 +14,9 @@ class DefaultAccessFilterImpl implements AccessFilter {
 	public boolean check(InetAddress address) {
 		return true;
 	}
+
+	@Override
+	public boolean check(InetAddress address, String path) {
+		return true;
+	}
 }

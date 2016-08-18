@@ -3,6 +3,7 @@ package de.sytm.httpserver.internal.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.sytm.httpserver.api.Attachment;
 import de.sytm.httpserver.api.HTTPResponseCode;
 import de.sytm.httpserver.api.Response;
 
@@ -43,5 +44,14 @@ public class FinalResponseImpl implements Response {
 	@Override
 	public HTTPResponseCode getResponseCode() {
 		return httprc;
+	}
+
+	@Override
+	public void addAttachment(Attachment attachment) {
+	}
+
+	@Override
+	public Attachment getAttachment() {
+		return null;
 	}
 }

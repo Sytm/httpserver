@@ -1,99 +1,66 @@
 package de.sytm.httpserver.api.listeners;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
+import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
+import de.sytm.httpserver.api.Attachment;
 import de.sytm.httpserver.api.RequestData;
 import de.sytm.httpserver.api.Response;
 import de.sytm.httpserver.api.WebListener;
-import de.sytm.httpserver.internal.Utils;
+import de.sytm.httpserver.internal.utils.IOUtils;
+import de.sytm.httpserver.internal.utils.WebFileSystem;
 
 public class FileListener implements WebListener {
 
-	private File root;
+	private WebFileSystem wfs;
 
-	public FileListener(File rootdirectory) {
-		this.root = rootdirectory;
+	public FileListener(File rootdirectory, List<String> indexfiles) {
+		this.wfs = new WebFileSystem(rootdirectory, indexfiles);
 	}
 
 	@Override
 	public Response recieve(RequestData requestData) {
-		File requestedFile = new File(root, requestData.getRequestPath());
-		if (requestedFile.isDirectory()) {
-			File newfile = new File(requestedFile, "index.html");
-			if (!newfile.exists()) {
-				newfile = new File(requestedFile, "index.htm");
-				if (!newfile.exists()) {
-					newfile = new File(requestedFile, "index.js");
-					if (!newfile.exists()) {
-						newfile = new File(requestedFile, "index.txt");
-					}
-				}
-			}
-			requestedFile = newfile;
-		}
-		if (!requestedFile.exists()) {
+		File requestedFile = wfs.toFile(requestData.getRequestPath());
+		if (requestedFile.isDirectory() || !requestedFile.exists()) {
 			return Response.NOT_FOUND;
 		}
 		Response response = Response.newResponse(true);
-		if (isImage(toURL(requestedFile))) {
-			response.getHeaders().put("", getRawType(requestData.getRequestPath()) + ";base64");
-			response.setContent(convertImage(requestedFile));
+		if (IOUtils.isImage(requestedFile)) {
+			response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));
+			Attachment attach = Attachment.createAttachment();
+			attach.setContent(readImage(requestedFile));
+			response.addAttachment(attach);
+			return response;
 		}
-		response.getHeaders().put("Content-Type", getRawType(toURL(requestedFile)));
-		response.setContent(Utils.readFile(requestedFile));
+		if (IOUtils.isBinaryFile(requestedFile)) {
+			response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));
+			response.getHeaders().put("Content-Disposition",
+					"attachment; filename=\"" + requestedFile.getName() + "\"");
+			Attachment attach = Attachment.createAttachment();
+			attach.setContent(IOUtils.readFileToBytes(requestedFile));
+			response.addAttachment(attach);
+		}
+		response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));
+		response.setContent(IOUtils.readFile(requestedFile));
 		return response;
 	}
 
-	private static String convertImage(File file) {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		try {
-			ImageIO.write(ImageIO.read(file), getImageType(toURL(file)), output);
-		} catch (IOException e) {
-			e.printStackTrace();
+	private static byte[] readImage(File file) {
+		if (file.length() > Integer.MAX_VALUE)
 			return null;
-		}
-		return DatatypeConverter.printBase64Binary(output.toByteArray());
-	}
-
-	private static boolean isImage(String path) {
-		return getRaw(path)[0].equals("image");
-	}
-
-	private static String getImageType(String path) {
-		return getRaw(path)[1];
-	}
-
-	private static String[] getRaw(String path) {
-		return getRawType(path).split("/");
-	}
-
-	private static String getRawType(String path) {
+		ByteArrayOutputStream out = new ByteArrayOutputStream((int) file.length());
 		try {
-			return Files.probeContentType(new File(getFileName(path)).toPath());
-		} catch (IOException e) {
-			e.printStackTrace();
+			BufferedImage image = ImageIO.read(file);
+			ImageIO.write(image, IOUtils.getImageType(file), out);
+			out.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
-		return path;
-	}
-
-	private static String toURL(File file) {
-		try {
-			return file.toURI().toURL().toString();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
-
-	private static String getFileName(String url) {
-		url = "/" + url;
-		return url.substring(url.lastIndexOf("/") + 1);
+		return out.toByteArray();
 	}
 }

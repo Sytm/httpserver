@@ -26,7 +26,17 @@ public class Listener implements WebListener {
         response.setContent("This is the example content of your webpage");
         // Sets the response code for your webpage. Default is HTTPResponseCode.FINE
 		response.setResponseCode(HTTPResponseCode.FORBIDDEN);
-		// OR Use predefined responses
+		// If you want to send the client raw binary, do this:
+		byte[] binary = methodToGetTheBinary();
+		// Creating an empty attachment
+		Attachment attachment = Attachment.createAttachment();
+		// Setting the content of the attachment
+		attachment.setContent(binary);
+		// Setting the attachment of the response
+		response.addAttachment(attachment);
+		// Note: When a attachment is set to an response, the original content is ignored!
+		
+		// Or simply use predefined responses
 		return Response.NOT_FOUND;
     }
 }

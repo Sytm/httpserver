@@ -3,11 +3,13 @@ package de.sytm.httpserver.internal.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.sytm.httpserver.api.Attachment;
 import de.sytm.httpserver.api.HTTPResponseCode;
 import de.sytm.httpserver.api.Response;
 
 public class ResponseImpl implements Response {
 
+	private Attachment attachment;
 	private Map<String, String> headers;
 	private String content;
 	private HTTPResponseCode httprc;
@@ -51,5 +53,15 @@ public class ResponseImpl implements Response {
 	@Override
 	public HTTPResponseCode getResponseCode() {
 		return httprc;
+	}
+
+	@Override
+	public void addAttachment(Attachment attachment) {
+		this.attachment = attachment;
+	}
+
+	@Override
+	public Attachment getAttachment() {
+		return attachment;
 	}
 }
