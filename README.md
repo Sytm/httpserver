@@ -1,8 +1,7 @@
 # httpserver
 This is a small libary for a HTTP WebServer
 
-As first, you must create a new instance of an WebListener.
-First Step: Create an own instance like this
+As first, you must create a new instance of an WebListener like this:
 ```java
 public class Listener implements WebListener {
 
@@ -49,11 +48,13 @@ public static void main(String[]) {
     WebServer server = new WebServer(9000, 10, listener);
     // Now we can simply start the server with
     server.start();
-    
-    // If you want to stop the server , simply execute this statement:
+}
+```
+Now open your browser, type localhost:9000 or your custom port, or if the webserver is on an other server/computer enter the domain or the ip and then the port. Now you'll see the webpage, from above!<br>
+To stop the server do this:
+```java
     server.shutdown();
     // Done!
-}
 ```
 
 If you have found a bug, or have some nice improvements. Simply clone this, edit it and make a pull request 
