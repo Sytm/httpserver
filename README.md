@@ -41,7 +41,17 @@ WebListener listener = new FileListener(new File("path/to/your/root/directory/")
 Now we create our WebServer instance:
 ```java
 public static void main(String[]) {
+    // Creating a new instance of ServerProperites
+    ServerProperties props = ServerProperties.createDefault();
+    // Setting the port
+    props.setPort(9000);
+    // Setting the amount of worker threads 
+    properties.setWorkerThreads(5);
     WebListener listener = new Listener();
+    // Setting the Listener
+    properties.setListener(listener);
+    // If you want, you can set an AccessFilter, where you can control, if the ip have access to this, or not. Good for antispam, whitelist and blacklist
+    properties.setAcessFilter(yourCustomFilter);
     // The first argument is the port, which the server is running on. The second one is the amount
     // of threads, which are processing the requests (Notice: The amount of threads is plus one, because the
     // WebServer class has it's own thread). And the last parameter is our listener.
