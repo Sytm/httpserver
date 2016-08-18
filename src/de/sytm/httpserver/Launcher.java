@@ -1,21 +1,29 @@
 package de.sytm.httpserver;
 
-import java.io.File;
-
+import de.sytm.httpserver.api.RequestData;
+import de.sytm.httpserver.api.Response;
+import de.sytm.httpserver.api.WebListener;
 import de.sytm.httpserver.api.WebServer;
-import de.sytm.httpserver.api.listeners.FileListener;
 
 public class Launcher {
 
 	public static void main(String[] args) {
-		/*
-		 * Creating a new server instance on port 9000, 10 worker threads and the listener who reads files from the
-		 */
-		WebServer server = new WebServer(9000, 10, new FileListener(new File("D:/Dev/eclipse/docs/theshapecore/")));
-		/*
-		 * Starting the thread
-		 */
+//		WebServer server = new WebServer(9000, 10, new FileListener(new File("D:/Dev/eclipse/docs/theshapecore/")));
+		WebServer server = new WebServer(9000, 10, new WebListener() {
+			
+			@Override
+			public Response recieve(RequestData requestData) {
+				return Response.INTERNAL_ERROR;
+			}
+		});
 		server.start();
 		System.out.println("Webserver started!");
+		try {
+			Thread.sleep(10 * 1000);
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		System.out.println("Stopping server!");
+		server.shutdown();
 	}
 }
