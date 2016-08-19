@@ -1,3 +1,6 @@
+# Information:
+Because this escalted quickly, I'll plan to make a wiki, with more informations<br>
+about these functions
 # httpserver
 This is a small libary for a HTTP WebServer
 
