@@ -1,6 +1,9 @@
 package de.sytm.httpserver.internal;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.sytm.httpserver.api.HTTPResponseCode;
@@ -20,6 +23,7 @@ public final class Constants {
 	public static final Response NO_CONTENT;
 	public static final Response BAD_REQUEST;
 	public static final Response UNAUTHORIZED;
+	@Deprecated
 	public static final Response PAYMENT_REQUIRED;
 	public static final Response FORBIDDEN;
 	public static final Response NOT_FOUND;
@@ -28,6 +32,7 @@ public final class Constants {
 	public static final Response BAD_GATEWAY;
 	public static final Response SERVICE_UNAVIABLE;
 	public static final Response GATEWAY_TIMEOUT;
+	public static final List<String> DEFAULT_INDEX_FILES;
 
 	static {
 		VERSION = "0.1.0";
@@ -76,6 +81,10 @@ public final class Constants {
 		GATEWAY_TIMEOUT = new FinalResponseImpl(getDefaultHeaders(), SERVER_ERROR_PRESET
 				.replaceAll("%error_type%", "Error - 504").replaceAll("%message_small%", "Gateway timeout!"),
 				HTTPResponseCode.GATEWAY_TIMEOUT);
+		List<String> indexfiles = new ArrayList<String>();
+		indexfiles.add("index.html");
+		indexfiles.add("index.htm");
+		DEFAULT_INDEX_FILES = Collections.unmodifiableList(indexfiles);
 	}
 
 	private static Map<String, String> getDefaultHeaders() {

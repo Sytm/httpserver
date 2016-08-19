@@ -24,7 +24,7 @@ public class FinalResponseImpl implements Response {
 	}
 
 	@Override
-	public void setContent(String content) {
+	public void setBody(String content) {
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class FinalResponseImpl implements Response {
 	}
 
 	@Override
-	public String getContent() {
+	public String getBody() {
 		return content;
 	}
 
@@ -47,7 +47,7 @@ public class FinalResponseImpl implements Response {
 	}
 
 	@Override
-	public void addAttachment(Attachment attachment) {
+	public void setAttachment(Attachment attachment) {
 	}
 
 	@Override

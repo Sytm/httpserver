@@ -30,7 +30,7 @@ public interface Attachment {
 	/**
 	 * Creates a new instance of {@link Attachment}
 	 * 
-	 * @return
+	 * @return Creates a new attachment instance
 	 */
 	public static Attachment createAttachment() {
 		return new AttachmentImpl();

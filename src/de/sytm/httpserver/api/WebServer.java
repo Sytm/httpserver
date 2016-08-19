@@ -12,12 +12,10 @@ import de.sytm.httpserver.internal.WebException;
 
 public class WebServer extends Thread {
 
-	private int port;
+	private ServerProperties properties;
 	private ServerSocket serverSocket;
 	private boolean isRunning;
 	private ExecutorService threadPool;
-	private AccessFilter filter;
-	private WebListener listener;
 
 	/**
 	 * Creates a new webserver
@@ -26,18 +24,16 @@ public class WebServer extends Thread {
 	 *            The properties for this server
 	 */
 	public WebServer(ServerProperties properties) {
-		this.listener = properties.getWebListener();
-		this.filter = properties.getAccessFilter();
+		this.properties = properties.copy();
 		this.threadPool = Executors.newFixedThreadPool(properties.getWorkerThreads());
-		this.port = properties.getPort();
 	}
 
 	public void run() {
 		openSocket();
 		while (isRunning()) {
-			Socket clientSocket;
+			Socket clientclient;
 			try {
-				clientSocket = this.serverSocket.accept();
+				clientclient = this.serverSocket.accept();
 				if (!isRunning()) {
 					break;
 				}
@@ -49,7 +45,8 @@ public class WebServer extends Thread {
 				}
 				throw new WebException("Error while accepting client connection", e);
 			}
-			this.threadPool.execute(new ClientWorker(clientSocket, listener, filter));
+			this.threadPool
+					.execute(new ClientWorker(clientclient, properties.getWebListener(), properties.getAccessFilter()));
 		}
 		this.threadPool.shutdown();
 		try {
@@ -85,10 +82,10 @@ public class WebServer extends Thread {
 	 */
 	private void openSocket() {
 		try {
-			this.serverSocket = new ServerSocket(this.port);
+			this.serverSocket = new ServerSocket(properties.getPort());
 			isRunning = true;
 		} catch (IOException e) {
-			throw new WebException("Cannot bind to port " + this.port, e);
+			throw new WebException("Cannot bind to port " + properties.getPort(), e);
 		}
 	}
 }

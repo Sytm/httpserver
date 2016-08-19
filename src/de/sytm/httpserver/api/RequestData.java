@@ -35,7 +35,7 @@ public interface RequestData {
 	 * <br>
 	 * The data is the part after the file, if it is a {@link RequestType#GET},
 	 * else it is in the request body.<br>
-	 * Example: <code>http://example.com/index.html?key=value&key2=value2</code>
+	 * Example: <code>http://example.com/index.html&#63;key=value&#38;key2=value2</code>
 	 * 
 	 * @return The data
 	 */

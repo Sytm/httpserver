@@ -1,20 +1,15 @@
-package de.sytm.httpserver.api.listeners;
+package de.sytm.httpserver.api.presets.listeners;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import de.sytm.httpserver.api.Attachment;
 import de.sytm.httpserver.api.RequestData;
 import de.sytm.httpserver.api.Response;
+import de.sytm.httpserver.api.WebFileSystem;
 import de.sytm.httpserver.api.WebListener;
-import de.sytm.httpserver.internal.Validator;
+import de.sytm.httpserver.internal.Validate;
 import de.sytm.httpserver.internal.utils.IOUtils;
-import de.sytm.httpserver.internal.utils.WebFileSystem;
 
 public class FileListener implements WebListener {
 
@@ -38,7 +33,7 @@ public class FileListener implements WebListener {
 	 *            All indexfiles
 	 */
 	public FileListener(File rootdirectory, List<String> indexfiles) {
-		Validator.mustTrue(rootdirectory.exists(), "The rootdirectory must exists!");
+		Validate.mustTrue(rootdirectory.exists(), "The rootdirectory must exists!");
 		this.wfs = new WebFileSystem(rootdirectory, indexfiles);
 	}
 
@@ -52,8 +47,8 @@ public class FileListener implements WebListener {
 		if (IOUtils.isImage(requestedFile)) {
 			response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));
 			Attachment attach = Attachment.createAttachment();
-			attach.setContent(readImage(requestedFile));
-			response.addAttachment(attach);
+			attach.setContent(IOUtils.readImageToBytes(requestedFile));
+			response.setAttachment(attach);
 			return response;
 		}
 		if (IOUtils.isBinaryFile(requestedFile)) {
@@ -62,24 +57,10 @@ public class FileListener implements WebListener {
 					"attachment; filename=\"" + requestedFile.getName() + "\"");
 			Attachment attach = Attachment.createAttachment();
 			attach.setContent(IOUtils.readFileToBytes(requestedFile));
-			response.addAttachment(attach);
+			response.setAttachment(attach);
 		}
 		response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));
-		response.setContent(IOUtils.readFile(requestedFile));
+		response.setBody(IOUtils.readFile(requestedFile));
 		return response;
-	}
-
-	private static byte[] readImage(File file) {
-		if (file.length() > Integer.MAX_VALUE)
-			return null;
-		ByteArrayOutputStream out = new ByteArrayOutputStream((int) file.length());
-		try {
-			BufferedImage image = ImageIO.read(file);
-			ImageIO.write(image, IOUtils.getImageType(file), out);
-			out.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		return out.toByteArray();
 	}
 }

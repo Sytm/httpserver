@@ -19,8 +19,7 @@ public class RequestParser {
 			} else {
 				int index = line.indexOf(":");
 				if (index >= 0) {
-					index = line.indexOf(" ");
-					result.put(line.substring(0, index), line.substring(index + 1));
+					result.put(line.substring(0, index), line.substring(line.indexOf(" ") + 1));
 				} else if (line.trim().length() > 0) {
 					String[] dataparts;
 					if (line.contains("&")) {

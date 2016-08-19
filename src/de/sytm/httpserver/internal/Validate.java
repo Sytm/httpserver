@@ -1,8 +1,8 @@
 package de.sytm.httpserver.internal;
 
-public final class Validator {
+public final class Validate {
 
-	private Validator() {
+	private Validate() {
 	}
 
 	public static void notNull(Object object, String message) {

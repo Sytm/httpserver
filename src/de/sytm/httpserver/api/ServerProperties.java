@@ -20,7 +20,7 @@ public interface ServerProperties {
 	 * @throws IllegalArgumentException
 	 *             If the filter is null
 	 */
-	public void setAcessFilter(AccessFilter filter);
+	public void setAccessFilter(AccessFilter filter);
 
 	/**
 	 * Returns the access filter
@@ -66,7 +66,7 @@ public interface ServerProperties {
 	/**
 	 * Sets the WebListener for the WebServer
 	 * 
-	 * @param webListener
+	 * @param webListener The listener
 	 * @throws IllegalArgumentException
 	 *             If the listener is null
 	 */

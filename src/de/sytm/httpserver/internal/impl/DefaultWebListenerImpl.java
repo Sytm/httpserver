@@ -12,7 +12,7 @@ class DefaultWebListenerImpl implements WebListener {
 	@Override
 	public Response recieve(RequestData requestData) {
 		Response response = Response.newResponse(true);
-		response.setContent("<h1>This is your first page!</h1><br><br><br><p>Add some content with adding a custom WebListener!</p>");
+		response.setBody("<h1>This is your first page!</h1><br><br><br><p>Add some content with adding a custom WebListener!</p>");
 		return response;
 	}
 }

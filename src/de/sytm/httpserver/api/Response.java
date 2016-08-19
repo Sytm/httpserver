@@ -33,16 +33,16 @@ public interface Response {
 	public void setHeaders(Map<String, String> headers);
 
 	/**
-	 * Sets the content for the response<br>
+	 * Sets the body for the response<br>
 	 * <br>
 	 * Will be ignored, if an {@link Attachment} is set
 	 * 
-	 * @param content
-	 *            The content for the page
+	 * @param body
+	 *            The body for the page
 	 * @throws IllegalArgumentException
 	 *             If the content is null
 	 */
-	public void setContent(String content);
+	public void setBody(String body);
 
 	/**
 	 * Sets the responsecode for the response
@@ -62,11 +62,11 @@ public interface Response {
 	public Map<String, String> getHeaders();
 
 	/**
-	 * Returns the content from the response
+	 * Returns the body from the response
 	 * 
-	 * @return The content
+	 * @return The body
 	 */
-	public String getContent();
+	public String getBody();
 
 	/**
 	 * Returns the http responsecode from this response
@@ -81,7 +81,7 @@ public interface Response {
 	 * @param attachment
 	 *            The attachment
 	 */
-	public void addAttachment(Attachment attachment);
+	public void setAttachment(Attachment attachment);
 
 	/**
 	 * The attachment, if it was set, else <code>null</code>

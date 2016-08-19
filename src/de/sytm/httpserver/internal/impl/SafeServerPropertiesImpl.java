@@ -3,7 +3,7 @@ package de.sytm.httpserver.internal.impl;
 import de.sytm.httpserver.api.AccessFilter;
 import de.sytm.httpserver.api.ServerProperties;
 import de.sytm.httpserver.api.WebListener;
-import de.sytm.httpserver.internal.Validator;
+import de.sytm.httpserver.internal.Validate;
 
 public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
@@ -20,8 +20,8 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 	}
 
 	@Override
-	public void setAcessFilter(AccessFilter filter) {
-		Validator.notNull(filter, "The filter can't be null!");
+	public void setAccessFilter(AccessFilter filter) {
+		Validate.notNull(filter, "The filter can't be null!");
 		this.filter = filter;
 	}
 
@@ -32,7 +32,7 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setPort(int port) {
-		Validator.mustTrue(port < 65535 && port > 0, "The port number must be between 0 and 65535!");
+		Validate.mustTrue(port < 65535 && port > 0, "The port number must be between 0 and 65535!");
 		this.port = port;
 	}
 
@@ -43,7 +43,7 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setListener(WebListener webListener) {
-		Validator.notNull(webListener, "The listener can't be null!");
+		Validate.notNull(webListener, "The listener can't be null!");
 		this.listener = webListener;
 	}
 
@@ -54,7 +54,7 @@ public class SafeServerPropertiesImpl implements ServerProperties, Cloneable {
 
 	@Override
 	public void setWorkerThreads(int amount) {
-		Validator.mustTrue(amount > 0, "The amount of worker threads must be greater than 0!");
+		Validate.mustTrue(amount > 0, "The amount of worker threads must be greater than 0!");
 		this.wthreads = amount;
 	}
 

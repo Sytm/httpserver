@@ -1,6 +1,8 @@
 package de.sytm.httpserver.internal.utils;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -9,6 +11,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 
 public final class IOUtils {
 
@@ -64,6 +68,20 @@ public final class IOUtils {
 			ex.printStackTrace();
 		}
 		return null;
+	}
+
+	public static byte[] readImageToBytes(File file) {
+		if (file.length() > Integer.MAX_VALUE)
+			return null;
+		ByteArrayOutputStream out = new ByteArrayOutputStream((int) file.length());
+		try {
+			BufferedImage image = ImageIO.read(file);
+			ImageIO.write(image, IOUtils.getImageType(file), out);
+			out.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return out.toByteArray();
 	}
 
 	public static byte[] readFileToBytes(File file) {

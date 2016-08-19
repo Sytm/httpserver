@@ -46,7 +46,7 @@ public class ClientWorker implements Runnable {
 							if (rawresponse.getAttachment().getContent() != null) {
 								def = false;
 								output.write(rawresponse.getResponseCode().toString().getBytes());
-								output.write((toString(rawresponse.getHeaders()) + "\n\n").getBytes());
+								output.write((toString(rawresponse.getHeaders()) + "\r\n\r\n").getBytes());
 								output.write(rawresponse.getAttachment().getContent());
 								output.flush();
 							}
@@ -88,8 +88,8 @@ public class ClientWorker implements Runnable {
 	private static String toString(Response response) {
 		String result = "";
 		result += response.getResponseCode().toString();
-		result += "\n" + toString(response.getHeaders()) + "\n\n";
-		result += response.getContent();
+		result += "\r\n" + toString(response.getHeaders()) + "\r\n\r\n";
+		result += response.getBody();
 		return result;
 	}
 
@@ -101,7 +101,7 @@ public class ClientWorker implements Runnable {
 				result += entry.getKey() + ": " + entry.getValue();
 				first = false;
 			} else {
-				result += "\n" + entry.getKey() + ": " + entry.getValue();
+				result += "\r\n" + entry.getKey() + ": " + entry.getValue();
 			}
 		}
 		return result;
