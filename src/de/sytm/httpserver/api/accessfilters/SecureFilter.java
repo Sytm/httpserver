@@ -1,4 +1,4 @@
-package de.sytm.httpserver.api.presets.accessfilters;
+package de.sytm.httpserver.api.accessfilters;
 
 import java.net.InetAddress;
 import java.util.ArrayList;

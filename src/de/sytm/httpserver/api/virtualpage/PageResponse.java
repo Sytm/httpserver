@@ -1,4 +1,4 @@
-package de.sytm.httpserver.api.presets.listeners.virtual;
+package de.sytm.httpserver.api.virtualpage;
 
 /**
  * This is just a empty class.<br>

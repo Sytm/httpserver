@@ -2,10 +2,10 @@ package de.sytm.httpserver.internal.impl;
 
 import de.sytm.httpserver.api.Mapper;
 import de.sytm.httpserver.api.Strings;
-import de.sytm.httpserver.api.presets.listeners.virtual.PageRequest;
-import de.sytm.httpserver.api.presets.listeners.virtual.PageResponse;
-import de.sytm.httpserver.api.presets.listeners.virtual.TextResponse;
-import de.sytm.httpserver.api.presets.listeners.virtual.VirtualPage;
+import de.sytm.httpserver.api.virtualpage.PageRequest;
+import de.sytm.httpserver.api.virtualpage.PageResponse;
+import de.sytm.httpserver.api.virtualpage.TextResponse;
+import de.sytm.httpserver.api.virtualpage.VirtualPage;
 import de.sytm.httpserver.internal.Constants;
 
 public class DefaultVirtualPageImpl implements VirtualPage {

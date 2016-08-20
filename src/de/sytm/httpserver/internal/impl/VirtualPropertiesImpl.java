@@ -3,7 +3,7 @@ package de.sytm.httpserver.internal.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.sytm.httpserver.api.presets.listeners.virtual.VirtualProperties;
+import de.sytm.httpserver.api.virtualpage.VirtualProperties;
 import de.sytm.httpserver.internal.Validate;
 
 public class VirtualPropertiesImpl implements VirtualProperties, Cloneable {

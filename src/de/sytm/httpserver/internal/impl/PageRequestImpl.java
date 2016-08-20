@@ -5,10 +5,10 @@ import java.net.InetAddress;
 import java.util.Map;
 
 import de.sytm.httpserver.api.RequestType;
-import de.sytm.httpserver.api.presets.listeners.virtual.DisplayableImage;
-import de.sytm.httpserver.api.presets.listeners.virtual.DownloadableFile;
-import de.sytm.httpserver.api.presets.listeners.virtual.PageRequest;
-import de.sytm.httpserver.api.presets.listeners.virtual.TextResponse;
+import de.sytm.httpserver.api.virtualpage.DisplayableImage;
+import de.sytm.httpserver.api.virtualpage.DownloadableFile;
+import de.sytm.httpserver.api.virtualpage.PageRequest;
+import de.sytm.httpserver.api.virtualpage.TextResponse;
 
 public class PageRequestImpl implements PageRequest {
 

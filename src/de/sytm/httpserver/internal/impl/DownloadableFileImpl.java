@@ -2,7 +2,7 @@ package de.sytm.httpserver.internal.impl;
 
 import java.io.File;
 
-import de.sytm.httpserver.api.presets.listeners.virtual.DownloadableFile;
+import de.sytm.httpserver.api.virtualpage.DownloadableFile;
 import de.sytm.httpserver.internal.ByteBuf;
 import de.sytm.httpserver.internal.utils.IOUtils;
 

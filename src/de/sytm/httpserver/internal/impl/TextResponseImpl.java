@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.sytm.httpserver.api.HTTPResponseCode;
-import de.sytm.httpserver.api.presets.listeners.virtual.TextResponse;
+import de.sytm.httpserver.api.virtualpage.TextResponse;
 
 class TextResponseImpl implements TextResponse {
 

@@ -2,7 +2,7 @@ package de.sytm.httpserver.internal.impl;
 
 import java.io.File;
 
-import de.sytm.httpserver.api.presets.listeners.virtual.DisplayableImage;
+import de.sytm.httpserver.api.virtualpage.DisplayableImage;
 import de.sytm.httpserver.internal.ByteBuf;
 import de.sytm.httpserver.internal.utils.IOUtils;
 

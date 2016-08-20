@@ -1,4 +1,4 @@
-package de.sytm.httpserver.api.presets.listeners.virtual;
+package de.sytm.httpserver.api.virtualpage;
 
 import java.io.File;
 import java.net.InetAddress;
