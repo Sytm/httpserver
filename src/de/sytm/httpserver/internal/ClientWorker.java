@@ -3,6 +3,7 @@ package de.sytm.httpserver.internal;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class ClientWorker implements Runnable {
 					input.read(buffer);
 					buffer = IOUtils.cleanBuffer(buffer);
 					String requestinformation = new String(buffer);
-					RequestData request = parse(requestinformation);
+					RequestData request = parse(requestinformation, clientSocket.getInetAddress());
 					if (filter.check(clientSocket.getInetAddress(), request.getRequestedPath())) {
 						Response rawresponse = listener.recieve(request);
 						boolean def = true;
@@ -82,10 +83,10 @@ public class ClientWorker implements Runnable {
 		}
 	}
 
-	private static RequestData parse(String information) {
+	private static RequestData parse(String information, InetAddress address) {
 		RawRequest request = RequestParser.parse(information);
 		return new RequestDataImpl(request.getHeaders().get("Request-Path"), RequestType.valueOf(request),
-				request.getUrlData());
+				request.getUrlData(), address);
 	}
 
 	private static String toString(Response response) {
