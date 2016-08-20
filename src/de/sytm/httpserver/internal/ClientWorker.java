@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -47,7 +48,9 @@ public class ClientWorker implements Runnable {
 								def = false;
 								output.write(rawresponse.getResponseCode().toString().getBytes());
 								output.write((toString(rawresponse.getHeaders()) + "\r\n\r\n").getBytes());
-								output.write(rawresponse.getAttachment().getContent());
+								Iterator<byte[]> ite = rawresponse.getAttachment().getContent().iterator();
+								while (ite.hasNext())
+									output.write(ite.next());
 								output.flush();
 							}
 						}

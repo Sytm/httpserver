@@ -3,12 +3,13 @@ package de.sytm.httpserver.internal.impl;
 import java.io.File;
 
 import de.sytm.httpserver.api.presets.listeners.virtual.DownloadableFile;
+import de.sytm.httpserver.internal.ByteBuf;
 import de.sytm.httpserver.internal.utils.IOUtils;
 
 class DownloadableFileImpl implements DownloadableFile {
 
 	private final String filename;
-	private final byte[] bytes;
+	private final ByteBuf bytes;
 	private final String type;
 	private final int filesize;
 
@@ -16,7 +17,7 @@ class DownloadableFileImpl implements DownloadableFile {
 		this.filename = filename;
 		this.filesize = (int) file.length();
 		this.type = IOUtils.getFileType(file);
-		this.bytes = IOUtils.readFileToBytes(file);
+		this.bytes = IOUtils.readFileToBuffer(file);
 	}
 
 	@Override
@@ -25,8 +26,8 @@ class DownloadableFileImpl implements DownloadableFile {
 	}
 
 	@Override
-	public byte[] getBytes() {
-		return bytes.clone();
+	public ByteBuf getBytes() {
+		return bytes;
 	}
 
 	@Override

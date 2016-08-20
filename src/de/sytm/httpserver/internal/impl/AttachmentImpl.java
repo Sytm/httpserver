@@ -1,20 +1,21 @@
 package de.sytm.httpserver.internal.impl;
 
 import de.sytm.httpserver.api.Attachment;
+import de.sytm.httpserver.internal.ByteBuf;
+import de.sytm.httpserver.internal.Validate;
 
 public class AttachmentImpl implements Attachment {
 
-	private byte[] bytes;
+	private ByteBuf bytes;
 
 	@Override
-	public void setContent(byte[] bytes) {
-		if (bytes == null)
-			throw new IllegalArgumentException("The bytes can't be null!");
+	public void setContent(ByteBuf bytes) {
+		Validate.notNull(bytes, "The bytes can't be null!");
 		this.bytes = bytes;
 	}
 
 	@Override
-	public byte[] getContent() {
+	public ByteBuf getContent() {
 		return bytes;
 	}
 }

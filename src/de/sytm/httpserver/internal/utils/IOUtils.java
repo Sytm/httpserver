@@ -13,6 +13,9 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
+
+import de.sytm.httpserver.internal.ByteBuf;
 
 public final class IOUtils {
 
@@ -20,6 +23,16 @@ public final class IOUtils {
 
 	static {
 		custommimetypes.put("jar", "application/java-archive");
+		custommimetypes.put("ogg", "audio/ogg");
+		custommimetypes.put("ogv", "video/ogg");
+		custommimetypes.put("opus", "audio/ogg");
+		custommimetypes.put("oga", "audio/ogg");
+		custommimetypes.put("ogx", "application/ogg");
+		custommimetypes.put("spx", "audio/ogg");
+		custommimetypes.put("flac", "audio/ogg");
+		custommimetypes.put("xspf", "application/xspf+xml");
+		custommimetypes.put("less", "text/css");
+		custommimetypes.put("scss", "text/css");
 	}
 
 	private IOUtils() {
@@ -40,6 +53,26 @@ public final class IOUtils {
 		}
 		Collections.reverse(result);
 		return convert(result.toArray(new Byte[result.size()]));
+	}
+	
+	public static ByteBuf readFileToBuffer(File file) {
+		ByteBuf buffer = new ByteBuf(file.length());
+		try {
+			buffer.read(new FileInputStream(file));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return buffer;
+	}
+	
+	public static ByteBuf readImageToBuffer(File file) {
+		ByteBuf buffer = new ByteBuf(file.length());
+		try {
+			buffer.read(new FileImageInputStream(file));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return buffer;
 	}
 
 	private static byte[] convert(Byte[] input) {

@@ -47,7 +47,7 @@ public class FileListener implements WebListener {
 		if (IOUtils.isImage(requestedFile)) {
 			response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));
 			Attachment attach = Attachment.createAttachment();
-			attach.setContent(IOUtils.readImageToBytes(requestedFile));
+			attach.setContent(IOUtils.readImageToBuffer(requestedFile));
 			response.setAttachment(attach);
 			return response;
 		}
@@ -56,7 +56,7 @@ public class FileListener implements WebListener {
 			response.getHeaders().put("Content-Disposition",
 					"attachment; filename=\"" + requestedFile.getName() + "\"");
 			Attachment attach = Attachment.createAttachment();
-			attach.setContent(IOUtils.readFileToBytes(requestedFile));
+			attach.setContent(IOUtils.readFileToBuffer(requestedFile));
 			response.setAttachment(attach);
 		}
 		response.getHeaders().put("Content-Type", IOUtils.getFileType(requestedFile));

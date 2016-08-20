@@ -12,6 +12,7 @@ import de.sytm.httpserver.api.RequestData;
 import de.sytm.httpserver.api.Response;
 import de.sytm.httpserver.api.WebListener;
 import de.sytm.httpserver.internal.Validate;
+import de.sytm.httpserver.internal.impl.DefaultVirtualPageImpl;
 import de.sytm.httpserver.internal.impl.PageRequestImpl;
 
 /**
@@ -43,6 +44,14 @@ public class VirtualWebSite implements WebListener {
 
 	@Override
 	public Response recieve(RequestData requestData) {
+		if (pages.isEmpty()) {
+			TextResponse tresponse = (TextResponse) DefaultVirtualPageImpl.getDefault().onRecieve(null);
+			Response response = Response.newResponse();
+			response.setBody(tresponse.getBody());
+			response.setHeaders(response.getHeaders());
+			response.setResponseCode(tresponse.getResponseCode());
+			return response;
+		}
 		String reqPath = requestData.getRequestedPath();
 		if (!properties.isCaseSensitive())
 			reqPath = reqPath.toLowerCase();

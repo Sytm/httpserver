@@ -1,5 +1,6 @@
 package de.sytm.httpserver.api;
 
+import de.sytm.httpserver.internal.ByteBuf;
 import de.sytm.httpserver.internal.impl.AttachmentImpl;
 
 /**
@@ -18,14 +19,14 @@ public interface Attachment {
 	 * @param bytes
 	 *            The bytes to set
 	 */
-	public void setContent(byte[] bytes);
+	public void setContent(ByteBuf bytes);
 
 	/**
 	 * Returns the content of the attachment
 	 * 
 	 * @return The content
 	 */
-	public byte[] getContent();
+	public ByteBuf getContent();
 
 	/**
 	 * Creates a new instance of {@link Attachment}

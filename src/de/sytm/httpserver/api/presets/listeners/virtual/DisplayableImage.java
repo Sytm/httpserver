@@ -1,5 +1,7 @@
 package de.sytm.httpserver.api.presets.listeners.virtual;
 
+import de.sytm.httpserver.internal.ByteBuf;
+
 /**
  * With this class you can display images to clients
  * 
@@ -13,7 +15,7 @@ public interface DisplayableImage extends PageResponse {
 	 * 
 	 * @return The file
 	 */
-	public byte[] getBytes();
+	public ByteBuf getBytes();
 
 	/**
 	 * Returns the image type of the image

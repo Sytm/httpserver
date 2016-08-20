@@ -1,5 +1,7 @@
 package de.sytm.httpserver.api.presets.listeners.virtual;
 
+import de.sytm.httpserver.internal.ByteBuf;
+
 /**
  * This class holds information about a downloadable file
  * 
@@ -20,7 +22,7 @@ public interface DownloadableFile extends PageResponse {
 	 * 
 	 * @return The file
 	 */
-	public byte[] getBytes();
+	public ByteBuf getBytes();
 
 	/**
 	 * Returns the mime-type of the file
